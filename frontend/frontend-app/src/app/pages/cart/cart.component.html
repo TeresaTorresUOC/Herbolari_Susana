@@ -1,0 +1,19 @@
+<h2>Carret</h2>
+
+<div *ngIf="items.length === 0">
+  El carret està buit.
+</div>
+
+<ul *ngIf="items.length > 0">
+  <li *ngFor="let item of items; let i = index">
+    {{ item.name }} - {{ item.price }} €
+
+    <button (click)="removeItem(i)">
+      Eliminar
+    </button>
+  </li>
+</ul>
+
+<h3 *ngIf="items.length > 0">
+  Total: {{ getTotal() }} €
+</h3>

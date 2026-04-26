@@ -1,0 +1,34 @@
+<h2>Checkout</h2>
+
+<div *ngIf="items.length > 0; else emptyCart">
+  <h3>Resum de la comanda</h3>
+
+  <ul>
+    <li *ngFor="let item of items">
+      {{ item.name }} - {{ item.price }} €
+    </li>
+  </ul>
+
+  <p><strong>Total:</strong> {{ total }} €</p>
+
+  <div>
+    <label for="delivery">Tipus de lliurament:</label>
+    <select id="delivery" name="delivery" [(ngModel)]="deliveryType">
+      <option value="recollida">Recollida en botiga</option>
+      <option value="domicili">Enviament a domicili</option>
+    </select>
+  </div>
+
+  <button 
+    type="button" 
+    (click)="confirmOrder()" 
+    [disabled]="isSubmitting">
+    Confirmar comanda
+  </button>
+</div>
+
+<ng-template #emptyCart>
+  <p>El carret està buit.</p>
+</ng-template>
+
+<p>{{ message }}</p>

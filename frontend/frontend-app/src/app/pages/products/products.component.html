@@ -1,0 +1,23 @@
+<h2>Productes</h2>
+
+<div class="product-list" *ngIf="products.length > 0; else noProducts">
+  <div class="product-card" *ngFor="let product of products">
+    
+    <img 
+      [src]="'http://localhost:3000/images/' + product.image" 
+      [alt]="product.name"
+      class="product-image"
+    >
+
+    <h3>{{ product.name }}</h3>
+    <p>{{ product.price }} €</p>
+
+    <button (click)="addToCart(product)">
+      Afegir al carret
+    </button>
+  </div>
+</div>
+
+<ng-template #noProducts>
+  <p>No hi ha productes disponibles.</p>
+</ng-template>

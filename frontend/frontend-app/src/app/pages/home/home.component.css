@@ -1,0 +1,23 @@
+.home {
+    text-align: center;
+    margin-top: 3rem;
+  }
+  
+  .buttons {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+  }
+  
+  .btn {
+    background-color: #7bbf8e;
+    color: black;
+    padding: 0.8rem 1.2rem;
+    text-decoration: none;
+    border-radius: 6px;
+  }
+  
+  .btn.secondary {
+    background-color: #dfeee3;
+  }

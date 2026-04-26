@@ -1,0 +1,22 @@
+form {
+    max-width: 300px;
+  }
+  
+  div {
+    margin-bottom: 12px;
+  }
+  
+  input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 4px;
+  }
+  
+  button {
+    padding: 8px 12px;
+  }
+  
+  p {
+    margin-top: 12px;
+    font-weight: bold;
+  }

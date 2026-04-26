@@ -1,0 +1,21 @@
+<h2>Panell d'administració</h2>
+
+<div class="admin-menu">
+  <button (click)="view = 'products'; loadProducts()">Gestionar productes</button>
+  <button (click)="view = 'orders'">Veure comandes</button>
+</div>
+
+<div *ngIf="view === 'products'">
+  <h3>Productes</h3>
+
+  <ul>
+    <li *ngFor="let p of products">
+      {{ p.name }} - {{ p.price }}€
+    </li>
+  </ul>
+</div>
+
+<div *ngIf="view === 'orders'">
+  <h3>Comandes</h3>
+  <p>(ací posaràs després les comandes)</p>
+</div>

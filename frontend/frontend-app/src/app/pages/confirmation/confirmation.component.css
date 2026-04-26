@@ -1,0 +1,14 @@
+.confirmation {
+    text-align: center;
+    margin-top: 3rem;
+  }
+  
+  .btn {
+    display: inline-block;
+    margin-top: 1.5rem;
+    background-color: #7bbf8e;
+    color: black;
+    padding: 0.8rem 1.2rem;
+    text-decoration: none;
+    border-radius: 6px;
+  }

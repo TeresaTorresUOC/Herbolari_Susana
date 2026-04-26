@@ -1,0 +1,34 @@
+<h2>Iniciar sessió</h2>
+
+<form (ngSubmit)="onLogin()">
+  <div>
+    <label for="email">Email:</label>
+    <input
+      type="email"
+      id="email"
+      name="email"
+      [(ngModel)]="email"
+      required
+    >
+  </div>
+
+  <div>
+    <label for="password">Contrasenya:</label>
+    <input
+      type="password"
+      id="password"
+      name="password"
+      [(ngModel)]="password"
+      required
+    >
+  </div>
+
+  <button type="submit">Entrar</button>
+  <p>No tens compte? <a routerLink="/register">Crear compte</a></p>
+</form>
+
+<p>{{ message }}</p>
+
+<p *ngIf="isLoggedIn">
+  Has iniciat sessió correctament.
+</p>
