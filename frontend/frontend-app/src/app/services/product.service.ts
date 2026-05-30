@@ -9,6 +9,18 @@ export interface Product {
   price: number;
   image: string;
   category_id: number;
+
+  is_new: number;
+  is_eco: number;
+  is_vegan: number;
+  is_gluten_free: number;
+  is_best_seller: number;
+
+  subcategory?: string;
+  stock:number;
+  quantity?: number;
+  category_name?: string;
+  category_slug?: string;
 }
 
 @Injectable({
@@ -22,4 +34,21 @@ export class ProductService {
   getProducts(): Observable<Product[]> {
     return this.http.get<Product[]>(this.apiUrl);
   }
+  getProductsByCategory(categorySlug: string): Observable<Product[]> {
+    return this.http.get<Product[]>(`${this.apiUrl}/category/${categorySlug}`);
+  }
+
+  addProduct(productData: FormData) {
+    return this.http.post(`${this.apiUrl}`, productData);
+  }
+  updateProduct(id: number, productData: FormData) {
+    return this.http.put(`${this.apiUrl}/${id}`, productData);
+  }
+  
+  deleteProduct(id: number) {
+    return this.http.delete(`${this.apiUrl}/${id}`);
+  }
 }
+
+
+

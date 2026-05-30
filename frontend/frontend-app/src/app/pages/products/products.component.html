@@ -1,23 +1,115 @@
-<h2>Productes</h2>
+<app-header></app-header>
 
-<div class="product-list" *ngIf="products.length > 0; else noProducts">
-  <div class="product-card" *ngFor="let product of products">
+<main class="products-page">
+
+  <section class="category-hero">
+    <div class="category-hero-content">
+      <h1>{{ categoryTitle }}</h1>
+  
+      <div class="hero-separator">
+        <span></span>
+        <img src="assets/icons/planta.svg" alt="">
+        <span></span>
+      </div>
+    </div>
+  
+    <div class="category-hero-image">
+      <img
+        src="assets/hero_productes.webp"
+        alt="Productes naturals d’herbolari"
+        loading="lazy">
+    </div>
+  </section>
+  <section class="products-content">
+
+    <div class="filter-dropdown" *ngIf="subcategories.length > 0">
+
+      <button class="filter-toggle" (click)="toggleFilters()">
+        Filtres
+        <span>{{ filtersOpen ? '▲' : '▼' }}</span>
+      </button>
     
-    <img 
-      [src]="'http://localhost:3000/images/' + product.image" 
-      [alt]="product.name"
-      class="product-image"
-    >
+      <div class="filter-menu" *ngIf="filtersOpen">
+    
+        <button
+          class="filter-btn"
+          [class.active]="currentSubcategory === ''"
+          (click)="clearSubcategoryFilter()">
+          Tots
+        </button>
+    
+        <button
+          class="filter-btn"
+          *ngFor="let subcategory of subcategories"
+          [class.active]="currentSubcategory === subcategory"
+          (click)="selectSubcategory(subcategory)">
+          {{ subcategory }}
+        </button>
+    
+      </div>
+    </div>
 
-    <h3>{{ product.name }}</h3>
-    <p>{{ product.price }} €</p>
+    <div class="products-grid" *ngIf="filteredProducts.length > 0; else noProducts">
+      <article class="product-card" *ngFor="let product of filteredProducts | slice:0:visibleCount">
+      
+        <h3>{{ product.name }}</h3>
+        
 
-    <button (click)="addToCart(product)">
-      Afegir al carret
-    </button>
-  </div>
-</div>
+        <img
+          class="product-img"
+          [src]="'http://localhost:3000/images/' + product.image"
+          [alt]="product.name">
 
-<ng-template #noProducts>
-  <p>No hi ha productes disponibles.</p>
-</ng-template>
+        <div class="product-bottom">
+          <strong>{{ product.price }}€</strong>
+          <button
+          class="favorite-btn"
+          type="button"
+          aria-label="Afegir a favorits"
+          [class.active]="isFavorite(product.id)"
+          (click)="toggleFavorite(product)">
+        
+          <img src="assets/icons/favorito.svg" alt="Favorit">
+        
+        </button>
+          <div class="buy-actions" *ngIf="product.stock > 0; else noStock">
+            <select
+              class="quantity-select"
+              [(ngModel)]="selectedQuantities[product.id]">
+          
+              <option
+                *ngFor="let quantity of getQuantityOptions(product.stock)"
+                [ngValue]="quantity">
+                {{ quantity }}
+              </option>
+          
+            </select>
+          
+            <button class="buy-btn" type="button" (click)="addToCart(product)">
+              Comprar
+            </button>
+          </div>
+          
+          <ng-template #noStock>
+            <span class="out-stock">Fora d'estoc</span>
+          </ng-template>
+        </div>
+      </article>
+    </div>
+    <div class="load-more-wrap" *ngIf="filteredProducts.length > visibleCount">
+      <button class="load-more-btn" type="button" (click)="loadMore()">
+        Veure més productes
+      </button>
+    </div>
+
+    <ng-template #noProducts>
+      <p class="empty-message">
+        No hi ha productes disponibles en aquesta secció.
+      </p>
+    </ng-template>
+
+  </section>
+
+</main>
+
+<app-footer></app-footer>

@@ -20,13 +20,15 @@ export class CartComponent implements OnInit {
     this.items = this.cartService.getItems();
   }
 
-  removeItem(index: number): void {
-    this.cartService.removeItem(index);
+  removeItem(id: number): void {
+    this.cartService.removeItem(id);
     this.items = this.cartService.getItems();
   }
   getTotal(): number {
-    return this.items.reduce((total, item) => total + item.price, 0);
+    return this.items.reduce(
+      (total, item) => total + (item.price * (item.quantity || 1)),
+      0
+    );
   }
-
   
 }

@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+
+import { HeaderComponent } from '../../components/header/header.component';
+import { FooterComponent } from '../../components/footer/footer.component';
 
 import { CartService } from '../../services/cart.service';
 import { OrderService } from '../../services/order.service';
@@ -11,23 +14,26 @@ import { Product } from '../../services/product.service';
 @Component({
   selector: 'app-checkout',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink, HeaderComponent, FooterComponent],
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.css'
 })
 export class CheckoutComponent implements OnInit {
 
   items: Product[] = [];
-  total: number = 0;
-  message: string = '';
-  deliveryType: string = 'recollida';
-  isSubmitting: boolean = false;
+  total = 0;
+  message = '';
+  deliveryType = 'recollida';
+  isSubmitting = false;
+  shippingCost = 0;
+
+  
 
   constructor(
     private cartService: CartService,
     private orderService: OrderService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -35,11 +41,24 @@ export class CheckoutComponent implements OnInit {
     this.calculateTotal();
   }
 
-  calculateTotal(): void {
-    this.total = this.items.reduce((sum, item) => {
-      return sum + Number(item.price);
+  get subtotal(): number {
+    return this.items.reduce((sum, item: any) => {
+      return sum + Number(item.price || 0) * Number(item.quantity || 1);
     }, 0);
   }
+
+  get finalTotal(): number {
+    return this.subtotal + this.shippingCost;
+  }
+
+  formatPrice(value: number): string {
+    return value.toFixed(2).replace('.', ',');
+  }
+
+  calculateTotal(): void {
+    this.total = this.subtotal;
+  }
+
 
   confirmOrder(): void {
     const user = this.authService.getCurrentUser();
@@ -50,7 +69,7 @@ export class CheckoutComponent implements OnInit {
     }
 
     if (this.items.length === 0) {
-      this.message = 'El carret està buit';
+      this.message = 'No hi ha productes en aquesta comanda';
       return;
     }
 
@@ -60,21 +79,25 @@ export class CheckoutComponent implements OnInit {
 
     this.isSubmitting = true;
 
+
+
     const orderData = {
       user_id: user.id,
       items: this.items,
-      total: this.total,
-      status: 'pending',
+      total: this.finalTotal,
+      status: 'pagada',
       delivery_type: this.deliveryType
     };
 
     this.orderService.createOrder(orderData).subscribe({
       next: (response) => {
         console.log('Comanda creada:', response);
+
         this.cartService.clearCart();
         this.items = [];
         this.total = 0;
         this.isSubmitting = false;
+
         this.router.navigate(['/confirmation']);
       },
       error: (error) => {

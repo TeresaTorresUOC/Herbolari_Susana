@@ -1,0 +1,264 @@
+<header class="header">
+
+  <a routerLink="/" class="logo-link">
+    <img src="assets/logo.PNG" class="logo" alt="Herbolari Susana">
+  </a>
+
+  <nav class="nav">
+    <a routerLink="/products/mascotes">Mascotes</a>
+    <a routerLink="/products/llar">Llar</a>
+    <a routerLink="/products/fitoterapia">Fitoteràpies</a>
+    <a routerLink="/products/alimentacio">Alimentació</a>
+    <a routerLink="/products/cosmetica">Cosmètica</a>
+
+    <a
+      *ngIf="authService.getCurrentUser()?.role === 'admin'"
+      routerLink="/admin">
+      Admin
+    </a>
+  </nav>
+
+  <div class="icons">
+
+    <!-- Buscador -->
+    <div class="search-dropdown">
+      <button class="icon-btn" aria-label="Buscar" (click)="toggleSearch()">
+        <img src="assets/icons/buscar.svg" alt="">
+      </button>
+  
+      <form *ngIf="searchOpen" class="search-menu" (ngSubmit)="searchProducts()">
+        <input
+          type="text"
+          name="search"
+          placeholder="Busca productes..."
+          [(ngModel)]="searchTerm"
+        >
+  
+        <button type="submit">Buscar</button>
+      </form>
+    </div>
+  
+    <!-- Usuari NO loguejat -->
+    <div *ngIf="!authService.getCurrentUser()" class="user-dropdown">
+      <button class="icon-btn" (click)="toggleUserMenu()" aria-label="Usuari">
+        <img src="assets/icons/avatar.svg" alt="">
+      </button>
+  
+      <div *ngIf="userMenuOpen" class="dropdown-menu">
+        <button class="dropdown-action" (click)="openAuthModal('login')">
+          Iniciar sessió
+        </button>
+        
+        <button class="dropdown-action" (click)="openAuthModal('register')">
+          Enregistrar-se
+        </button>
+      </div>
+    </div>
+  
+    <!-- Usuari loguejat -->
+    <div *ngIf="authService.getCurrentUser()" class="user-dropdown">
+      <button class="icon-btn" (click)="toggleUserMenu()" aria-label="Usuari">
+        <img src="assets/icons/avatar.svg" alt="">
+      </button>
+  
+      <div *ngIf="userMenuOpen" class="dropdown-menu">
+        <p class="hello">Hola, {{ authService.getCurrentUser()?.name }}</p>
+  
+        <a routerLink="/favorites" (click)="userMenuOpen = false">Favorits</a>
+        <a routerLink="/orders" (click)="userMenuOpen = false">
+          Les meues comandes
+        </a>
+  
+        <a
+          *ngIf="authService.getCurrentUser()?.role === 'admin'"
+          routerLink="/admin"
+          (click)="userMenuOpen = false">
+          Panell admin
+        </a>
+  
+        <button class="logout-btn" (click)="logout()">Eixir</button>
+      </div>
+    </div>
+  
+    <!-- Carret desplegable -->
+    <div class="cart-dropdown">
+      <button class="icon-btn cart-link" aria-label="Carret" (click)="toggleCartMenu()">
+        <img src="assets/icons/carro-de-la-compra.svg" alt="">
+  
+        <span *ngIf="cartCount > 0" class="cart-count">
+          {{ cartCount }}
+        </span>
+      </button>
+      <div *ngIf="cartMenuOpen" class="cart-menu">
+
+        <ng-container *ngIf="cartCount > 0; else emptyCart">
+      
+          <div class="cart-item" *ngFor="let item of cartItems">
+      
+            <img
+              [src]="'http://localhost:3000/images/' + item.image"
+              [alt]="item.name"
+            >
+      
+            <div class="cart-info">
+      
+              <strong>{{ item.name }}</strong>
+      
+              <p class="cart-unit-price">
+                Preu unitari:
+                {{ item.price | number:'1.2-2' }} €
+              </p>
+      
+              <p class="cart-quantity">
+                Quantitat:
+                {{ item.quantity || 1 }}
+              </p>
+      
+              <span class="cart-item-total">
+                {{ item.price * (item.quantity || 1) | number:'1.2-2' }} €
+              </span>
+      
+            </div>
+      
+          </div>
+      
+          <div class="cart-subtotal">
+            <span>Subtotal</span>
+      
+            <strong>
+              {{ cartTotal | number:'1.2-2' }} €
+            </strong>
+          </div>
+      
+          <div class="cart-actions">
+      
+            <a
+              routerLink="/cart"
+              (click)="cartMenuOpen = false"
+              class="btn-secondary"
+            >
+              Veure carret
+            </a>
+      
+            <a
+              routerLink="/checkout"
+              (click)="cartMenuOpen = false"
+              class="btn-primary"
+            >
+              Pagar
+            </a>
+      
+          </div>
+      
+        </ng-container>
+      
+        <ng-template #emptyCart>
+      
+          <div class="empty-cart">
+      
+            <p>El carret està buit</p>
+      
+            <a
+              routerLink="/products"
+              (click)="cartMenuOpen = false"
+            >
+              Explora productes
+            </a>
+      
+          </div>
+      
+        </ng-template>
+      
+      </div>
+     
+    </div>
+  
+  </div>
+  <div class="auth-overlay" *ngIf="authModalOpen" (click)="closeAuthModal()">
+
+    <div class="auth-modal" (click)="$event.stopPropagation()">
+  
+      <button class="auth-close" (click)="closeAuthModal()">×</button>
+  
+      <h2 *ngIf="authMode === 'login'">Iniciar sessió</h2>
+      <h2 *ngIf="authMode === 'register'">Enregistrar-se</h2>
+  
+      <!-- LOGIN -->
+      <form *ngIf="authMode === 'login'" (ngSubmit)="login()">
+  
+        <label>Email</label>
+        <input
+          type="email"
+          name="loginEmail"
+          placeholder="Introdueix el teu email"
+          [(ngModel)]="loginEmail"
+          required
+        >
+  
+        <label>Contrasenya</label>
+        <input
+          type="password"
+          name="loginPassword"
+          placeholder="Introdueix la teua contrasenya"
+          [(ngModel)]="loginPassword"
+          required
+        >
+  
+        <button type="submit" class="auth-submit">Entrar</button>
+  
+        <p class="auth-switch">
+          No tens compte?
+          <button type="button" (click)="authMode = 'register'">
+            Enregistrar-se
+          </button>
+        </p>
+  
+      </form>
+  
+      <!-- REGISTER -->
+      <form *ngIf="authMode === 'register'" (ngSubmit)="register()">
+  
+        <label>Nom</label>
+        <input
+          type="text"
+          name="registerName"
+          placeholder="Introdueix el teu nom"
+          [(ngModel)]="registerName"
+          required
+        >
+  
+        <label>Email</label>
+        <input
+          type="email"
+          name="registerEmail"
+          placeholder="Introdueix el teu email"
+          [(ngModel)]="registerEmail"
+          required
+        >
+  
+        <label>Contrasenya</label>
+        <input
+          type="password"
+          name="registerPassword"
+          placeholder="Crea una contrasenya"
+          [(ngModel)]="registerPassword"
+          required
+        >
+  
+        <button type="submit" class="auth-submit">Crear compte</button>
+  
+        <p class="auth-switch">
+          Ja tens compte?
+          <button type="button" (click)="authMode = 'login'">
+            Iniciar sessió
+          </button>
+        </p>
+  
+      </form>
+  
+      <p class="auth-error" *ngIf="authError">{{ authError }}</p>
+  
+    </div>
+  
+  </div>
+</header>

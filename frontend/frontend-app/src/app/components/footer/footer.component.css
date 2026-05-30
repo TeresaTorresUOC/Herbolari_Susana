@@ -1,0 +1,67 @@
+
+.footer {
+    padding: 36px 84px 14px;
+    background: #5e725b;
+    color: #FCFBF8;
+  }
+  
+  .footer-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.6fr repeat(4, 1fr);
+    gap: 36px;
+  }
+  
+  .footer-logo {
+    width: 130px;
+    margin-bottom: 12px;
+  }
+  
+  .footer h3 {
+    margin: 0 0 12px;
+    color: #FCFBF8;
+    font-size: 16px;
+  }
+  
+  .footer a,
+  .footer p {
+    display: block;
+    margin: 0 0 8px;
+    color: #FCFBF8;
+    font-size: 14px;
+    text-decoration: none;
+    line-height: 1.4;
+  }
+  
+  .copyright {
+    margin-top: 24px;
+    text-align: center;
+    font-size: 12px;
+    opacity: 0.8;
+  }
+  @media (max-width: 1024px) {
+    .footer {
+        padding-left: 32px;
+        padding-right: 32px;
+      }
+    
+      .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    /* MÒBIL */
+@media (max-width: 700px) {
+    .footer {
+        padding: 30px 20px;
+      }
+    
+
+    .footer-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+
+

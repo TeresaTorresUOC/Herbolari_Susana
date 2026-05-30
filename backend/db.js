@@ -25,21 +25,32 @@ db.serialize(() => {
   db.run(`
     CREATE TABLE IF NOT EXISTS categories (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      name TEXT NOT NULL
+      name TEXT NOT NULL,
+      slug TEXT UNIQUE NOT NULL
     )
   `);
 
   db.run(`
-    CREATE TABLE IF NOT EXISTS products (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      name TEXT NOT NULL,
-      description TEXT,
-      price REAL NOT NULL,
-      image TEXT,
-      category_id INTEGER,
-      FOREIGN KEY (category_id) REFERENCES categories(id)
-    )
-  `);
+  CREATE TABLE IF NOT EXISTS products (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    description TEXT,
+    price REAL NOT NULL,
+    image TEXT,
+
+    category_id INTEGER,
+    subcategory TEXT,
+    stock INTEGER DEFAULT 0,
+
+    is_new INTEGER DEFAULT 0,
+    is_eco INTEGER DEFAULT 0,
+    is_vegan INTEGER DEFAULT 0,
+    is_gluten_free INTEGER DEFAULT 0,
+    is_best_seller INTEGER DEFAULT 0,
+
+    FOREIGN KEY (category_id) REFERENCES categories(id)
+  )
+`);
 
   db.run(`
     CREATE TABLE IF NOT EXISTS orders (
@@ -71,18 +82,23 @@ db.serialize(() => {
   `);
 
   db.run(`
-    INSERT OR IGNORE INTO categories (id, name) VALUES
-    (1, 'Fitoteràpia'),
-    (2, 'Alimentació'),
-    (3, 'Cosmètica')
-  `);
+  INSERT OR IGNORE INTO categories (id, name, slug) VALUES
+  (1, 'Fitoteràpies', 'fitoterapia'),
+  (2, 'Alimentació', 'alimentacio'),
+  (3, 'Cosmètica', 'cosmetica'),
+  (4, 'Llar', 'llar'),
+  (5, 'Mascotes', 'mascotes')
+`);
 
-  db.run(`
-    INSERT OR IGNORE INTO products (id, name, description, price, image, category_id) VALUES
-    (1, 'Infusió relaxant', 'Infusió natural per al descans', 5.95, 'infusio.jpg', 1),
-    (2, 'Vitamina C', 'Complement alimentari', 12.50, 'vitaminac.jpg', 2),
-    (3, 'Crema hidratant', 'Crema natural facial', 9.99, 'crema.jpg', 3)
-  `);
+db.run(`
+INSERT OR IGNORE INTO products 
+(id, name, description, price, image, category_id, subcategory, stock, is_new, is_eco, is_vegan, is_gluten_free, is_best_seller) VALUES
+(1, 'Infusió relaxant', 'Infusió natural per al descans', 5.95, 'infusio.jpg', 1, 'infusions', 10, 1, 1, 1, 0, 1),
+(2, 'Vitamina C', 'Complement alimentari', 12.50, 'vitaminac.jpg', 1, 'vitamines', 8, 1, 0, 1, 1, 1),
+(3, 'Crema hidratant', 'Crema natural facial', 9.99, 'crema.jpg', 3, 'facial', 6, 1, 1, 1, 0, 0),
+(4, 'Farina ecològica', 'Farina natural ecològica', 20.00, 'farina.webp', 2, 'farines', 12, 1, 1, 1, 0, 1),
+(5, 'Beguda vegetal', 'Beguda vegetal natural', 3.50, 'beguda.webp', 2, 'begudes', 15, 1, 1, 1, 0, 0)
+`);
 });
 
 module.exports = db;

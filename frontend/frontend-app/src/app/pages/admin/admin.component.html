@@ -1,21 +1,272 @@
-<h2>Panell d'administració</h2>
+<section class="admin-page">
+  <a routerLink="/" class="back-home">
+    ← Tornar a la botiga
+   </a>
 
-<div class="admin-menu">
-  <button (click)="view = 'products'; loadProducts()">Gestionar productes</button>
-  <button (click)="view = 'orders'">Veure comandes</button>
-</div>
+  <div class="admin-header">
+    <div>
+      <p class="admin-kicker">Gestió interna</p>
+      <h1>Panell d'administració</h1>
+      <p class="admin-subtitle">
+        Gestiona els productes, les categories i la informació visible a la botiga.
+      </p>
+    </div>
+  </div>
 
-<div *ngIf="view === 'products'">
-  <h3>Productes</h3>
+  <div class="admin-actions">
+    <button
+      type="button"
+      [class.active]="view === 'products'"
+      (click)="loadProducts(true)">
+      Productes
+    </button>
+  
+    <button
+      type="button"
+      [class.active]="view === 'add'"
+      (click)="openAddProduct()">
+      Afegir producte
+    </button>
+  
+    <button
+      type="button"
+      [class.active]="view === 'orders'"
+      (click)="loadOrders()">
+      Comandes
+    </button>
+  </div>
 
-  <ul>
-    <li *ngFor="let p of products">
-      {{ p.name }} - {{ p.price }}€
-    </li>
-  </ul>
-</div>
+  <section *ngIf="view === 'add'" class="admin-card admin-form">
+    <h2>
+      {{ editingProductId ? 'Editar producte' : 'Afegir nou producte' }}
+    </h2>
 
-<div *ngIf="view === 'orders'">
-  <h3>Comandes</h3>
-  <p>(ací posaràs després les comandes)</p>
-</div>
+    <form (ngSubmit)="addProduct()">
+
+      <div class="form-grid">
+        <input
+          type="text"
+          name="name"
+          placeholder="Nom del producte"
+          [(ngModel)]="newProduct.name"
+          required
+        >
+      
+        <input
+          type="number"
+          name="price"
+          placeholder="Preu"
+          [(ngModel)]="newProduct.price"
+          required
+        >
+      
+        <input
+          type="number"
+          name="stock"
+          placeholder="Stock"
+          [(ngModel)]="newProduct.stock"
+          min="0"
+          required
+        >
+      </div>
+
+      <textarea
+        name="description"
+        placeholder="Descripció del producte"
+        [(ngModel)]="newProduct.description">
+      </textarea>
+
+      <div class="form-grid">
+        <input
+          type="file"
+          name="image"
+          accept="image/*"
+          (change)="onImageSelected($event)"
+        >
+      
+        <select
+          name="category_id"
+          [(ngModel)]="newProduct.category_id"
+          (ngModelChange)="onCategoryChange()">
+      
+          <option [ngValue]="1">Fitoteràpia</option>
+          <option [ngValue]="2">Alimentació</option>
+          <option [ngValue]="3">Cosmètica</option>
+          <option [ngValue]="4">Llar</option>
+          <option [ngValue]="5">Mascotes</option>
+        </select>
+      </div>
+      
+      <div class="form-grid">
+        <select
+          name="subcategory"
+          [(ngModel)]="newProduct.subcategory">
+      
+          <option value="">Selecciona subcategoria</option>
+      
+          <option
+            *ngFor="let sub of subcategoriesByCategory[newProduct.category_id]"
+            [value]="sub.value">
+            {{ sub.label }}
+          </option>
+        </select>
+      </div>
+
+      <div class="checkbox-grid">
+        <label>
+          <input type="checkbox" name="is_new" [(ngModel)]="newProduct.is_new">
+          Novetat
+        </label>
+
+        <label>
+          <input type="checkbox" name="is_eco" [(ngModel)]="newProduct.is_eco">
+          Eco
+        </label>
+
+        <label>
+          <input type="checkbox" name="is_vegan" [(ngModel)]="newProduct.is_vegan">
+          Vegà
+        </label>
+
+        <label>
+          <input type="checkbox" name="is_gluten_free" [(ngModel)]="newProduct.is_gluten_free">
+          Sense gluten
+        </label>
+
+        <label>
+          <input type="checkbox" name="is_best_seller" [(ngModel)]="newProduct.is_best_seller">
+          Més venut
+        </label>
+      </div>
+
+      <button class="save-btn" type="submit">
+        {{ editingProductId ? 'Actualitzar producte' : 'Guardar producte' }}
+      </button>
+
+    </form>
+  </section>
+
+  <section *ngIf="view === 'products'" class="admin-card admin-list">
+    <h2>Productes existents</h2>
+
+    <div class="product-row" *ngFor="let product of products">
+      <div class="product-info">
+
+        <img
+          [src]="'http://localhost:3000/images/' + product.image"
+          [alt]="product.name"
+          loading="lazy"
+        >
+      
+        <div>
+          <strong>{{ product.name }}</strong>
+          <p>{{ product.price }} €</p>
+          <p class="stock-text">Stock: {{ product.stock }}</p>
+        </div>
+      
+      </div>
+      
+      <div class="product-buttons">
+      
+        <button
+          class="edit-btn"
+          (click)="editProduct(product)">
+          Editar
+        </button>
+      
+        <button
+          class="delete-btn"
+          (click)="deleteProduct(product.id)">
+          Eliminar
+        </button>
+      </div>
+      </div>
+  </section>
+  <section *ngIf="view === 'orders'" class="admin-card admin-orders">
+
+
+    <h2>Gestió de comandes</h2>
+
+    <p *ngIf="filteredGroupedOrders.length === 0" class="empty-orders">
+      Encara no hi ha comandes registrades.
+    </p>
+
+    <div class="order-filters">
+      <button
+        type="button"
+        [class.active]="orderFilter === 'all'"
+        (click)="orderFilter = 'all'">
+        Totes
+      </button>
+    
+      <button
+        type="button"
+        [class.active]="orderFilter === 'normal'"
+        (click)="orderFilter = 'normal'">
+        Compres directes
+      </button>
+    
+      <button
+        type="button"
+        [class.active]="orderFilter === 'subscription'"
+        (click)="orderFilter = 'subscription'">
+        Subscripcions
+      </button>
+    </div>
+      
+    <div *ngFor="let order of filteredGroupedOrders" class="order-card">
+  
+      <h3>Comanda #{{ order.id }}</h3>
+  
+      <p><strong>Client:</strong> {{ order.user_name }} - {{ order.user_email }}</p>
+      <p><strong>Data:</strong> {{ order.created_at }}</p>
+      <p><strong>Tipus:</strong> {{ order.delivery_type }}</p>
+      <p><strong>Total:</strong> {{ order.total }}€</p>
+  
+      <div class="order-products">
+
+        <strong>Productes:</strong>
+      
+        <div
+          *ngFor="let product of order.products"
+          class="order-product-line">
+      
+          <span>{{ product.product_name }}</span>
+      
+          <span>
+            x{{ product.quantity }}
+          </span>
+      
+          <span>
+            {{ product.unit_price }} €
+          </span>
+      
+        </div>
+      
+      </div>
+  
+      <label>Estat:</label>
+  
+      <select
+        [(ngModel)]="order.status"
+        (change)="updateStatus(order.id, order.status)">
+        <option value="pendent">Pendent</option>
+        <option value="preparant">Preparant</option>
+        <option value="enviada">Enviada</option>
+        <option value="entregada">Entregada</option>
+        <option value="programada">Programada</option>
+        <option value="cancel·lada">Cancel·lada</option>
+      </select>
+  
+      <button
+        class="delete-btn"
+        type="button"
+        (click)="deleteOrder(order.id)">
+        Eliminar
+      </button>
+  
+    </div>
+  
+  </section>
+
+</section>

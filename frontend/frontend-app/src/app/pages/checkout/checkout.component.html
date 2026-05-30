@@ -1,34 +1,162 @@
-<h2>Checkout</h2>
+<app-header></app-header>
+<section class="checkout-page">
 
-<div *ngIf="items.length > 0; else emptyCart">
-  <h3>Resum de la comanda</h3>
+  <h1>Finalitzar comanda</h1>
 
-  <ul>
-    <li *ngFor="let item of items">
-      {{ item.name }} - {{ item.price }} €
-    </li>
-  </ul>
+  <p class="intro">
+    Tria com vols rebre la teua comanda i completa les dades per continuar.
+  </p>
 
-  <p><strong>Total:</strong> {{ total }} €</p>
+  <div *ngIf="items.length > 0; else emptyCart" class="checkout-layout">
 
-  <div>
-    <label for="delivery">Tipus de lliurament:</label>
-    <select id="delivery" name="delivery" [(ngModel)]="deliveryType">
-      <option value="recollida">Recollida en botiga</option>
-      <option value="domicili">Enviament a domicili</option>
-    </select>
+    <div class="checkout-card">
+
+      <h2>1. Com vols rebre la teua comanda?</h2>
+
+      <div class="delivery-options">
+
+        <label class="delivery-option" [class.active]="deliveryType === 'domicili'">
+          <input type="radio" name="deliveryType" value="domicili" [(ngModel)]="deliveryType">
+          <img src="assets/icons/entrega-rapida.svg" alt="" class="delivery-icon">
+          <div>
+            <strong>Enviament a domicili</strong>
+            <p>T’ho portem a casa</p>
+          </div>
+        </label>
+
+        <label class="delivery-option" [class.active]="deliveryType === 'recollida'">
+          <input type="radio" name="deliveryType" value="recollida" [(ngModel)]="deliveryType">
+          <img src="assets/icons/botiga.svg" alt="" class="delivery-icon">
+          <div>
+            <strong>Recollida a la botiga</strong>
+            <p>Recull la teua comanda</p>
+          </div>
+        </label>
+
+        <label class="delivery-option" [class.active]="deliveryType === 'missatgeria'">
+          <input type="radio" name="deliveryType" value="missatgeria" [(ngModel)]="deliveryType">
+          <img src="assets/icons/caja.svg" alt="" class="delivery-icon">
+          <div>
+            <strong>Enviament per missatgeria</strong>
+            <p>Enviament el mateix dia</p>
+          </div>
+        </label>
+
+      </div>
+
+      <h2>2. Dades d'entrega</h2>
+
+      <div class="form-grid">
+
+        <label>
+          Nom complet
+          <input type="text" placeholder="Introdueix el teu nom">
+        </label>
+
+        <label>
+          Adreça
+          <input type="text" placeholder="Introdueix la teua adreça">
+        </label>
+
+        <label>
+          Codi postal
+          <input type="text" placeholder="Introdueix el codi postal">
+        </label>
+
+        <label>
+          Població
+          <input type="text" placeholder="Introdueix la teua població">
+        </label>
+
+        <label>
+          Telèfon
+          <input type="text" placeholder="Introdueix el teu telèfon">
+        </label>
+
+        <label>
+          Email
+          <input type="email" placeholder="Introdueix el teu email">
+        </label>
+
+      </div>
+
+      <h2>3. Observacions <span>(opcional)</span></h2>
+
+      <textarea placeholder="Ex. Porta al veí, truca abans, etc."></textarea>
+
+      <button
+        type="button"
+        class="pay-button"
+        (click)="confirmOrder()"
+        [disabled]="isSubmitting">
+        {{ isSubmitting ? 'Processant...' : 'Continuar amb el pagament' }}
+      </button>
+
+      <p class="message" *ngIf="message">{{ message }}</p>
+
+    </div>
+
+    <aside class="summary-card">
+
+      <h2>La teua comanda</h2>
+
+      <div class="summary-item" *ngFor="let item of items">
+
+        <img
+          [src]="'http://localhost:3000/images/' + item.image"
+          [alt]="item.name"
+          loading="lazy"
+        >
+
+        <div class="item-info">
+          <strong>{{ item.name }}</strong>
+          <p>{{ item.description }}</p>
+          <small>Quantitat: {{ item.quantity || 1 }}</small>
+        </div>
+
+        <span>
+          {{ formatPrice(item.price * (item.quantity || 1)) }}€
+        </span>
+
+      </div>
+
+      <a routerLink="/products" class="add-more">
+        Afegir més productes <span>+</span>
+      </a>
+
+      <div class="summary-line">
+        <span>Subtotal</span>
+        <strong>{{ formatPrice(subtotal) }}€</strong>
+      </div>
+
+      <div class="summary-line">
+        <span>Enviament</span>
+        <strong>Gratuït</strong>
+      </div>
+
+      <div class="summary-total">
+        <span>Total</span>
+        <strong>{{ formatPrice(finalTotal) }}€</strong>
+      </div>
+
+      <div class="secure-box">
+        <img src="assets/icons/hoja.svg" alt="" class="secure-icon">
+        <p>
+          Les teues dades estan protegides.<br>
+          Pagament 100% segur.
+        </p>
+      </div>
+
+    </aside>
+
   </div>
 
-  <button 
-    type="button" 
-    (click)="confirmOrder()" 
-    [disabled]="isSubmitting">
-    Confirmar comanda
-  </button>
-</div>
+  <ng-template #emptyCart>
+    <div class="empty-checkout">
+      <p>El carret està buit.</p>
+      <a routerLink="/products">Explora productes</a>
+    </div>
+  </ng-template>
 
-<ng-template #emptyCart>
-  <p>El carret està buit.</p>
-</ng-template>
-
-<p>{{ message }}</p>
+</section>
+<app-footer></app-footer>

@@ -9,9 +9,33 @@ export class CartService {
   private items: Product[] = [];
 
   addToCart(product: Product): void {
-    this.items.push(product);
-    console.log('Producte afegit al carret:', product);
+
+    const existingProduct = this.items.find(
+      item => item.id === product.id
+    );
+  
+    if (existingProduct) {
+  
+      existingProduct.quantity =
+        (existingProduct.quantity || 1) + 1;
+  
+    } else {
+  
+      this.items.push({
+        ...product,
+        quantity: 1
+      });
+  
+    }
+  
     console.log('Carret actual:', this.items);
+  }
+  getTotal(): number {
+    return this.items.reduce(
+      (total, item) =>
+        total + (item.price * (item.quantity || 1)),
+      0
+    );
   }
 
   getItems(): Product[] {
@@ -22,7 +46,9 @@ export class CartService {
     this.items = [];
   }
 
-  removeItem(index: number): void {
-    this.items.splice(index, 1);
+  removeItem(productId: number): void {
+    this.items = this.items.filter(
+      item => item.id !== productId
+    );
   }
 }

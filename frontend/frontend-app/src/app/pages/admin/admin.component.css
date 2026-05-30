@@ -1,0 +1,382 @@
+.admin-page {
+    min-height: calc(100vh - 88px);
+    padding: 56px 72px;
+    background: #F7F4EE;
+    font-family: 'Quicksand', sans-serif;
+  }
+  
+  .admin-header {
+    margin-bottom: 32px;
+  }
+  
+  .admin-kicker {
+    margin: 0 0 8px;
+    color: #C9A96A;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  
+  .admin-header h1 {
+    margin: 0;
+    color: #3F5C4E;
+    font-size: 48px;
+    font-weight: 700;
+  }
+  
+  .admin-subtitle {
+    max-width: 620px;
+    margin-top: 12px;
+    color: #4A4A4A;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+  
+  .admin-actions {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+  
+  .admin-actions button {
+    border: 1px solid #3F5C4E;
+    background: transparent;
+    color: #3F5C4E;
+    border-radius: 999px;
+    padding: 12px 22px;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  
+  .admin-actions button.active,
+  .admin-actions button:hover {
+    background: #3F5C4E;
+    color: #FCFBF8;
+  }
+  
+  .admin-card {
+    max-width: 1000px;
+    background: #FCFBF8;
+    border: 1px solid #E8F0EB;
+    border-radius: 24px;
+    padding: 32px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+  }
+  
+  .admin-card h2 {
+    margin: 0 0 24px;
+    color: #3F5C4E;
+    font-size: 28px;
+  }
+  
+  .admin-form form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+  
+  .admin-form input,
+  .admin-form textarea,
+  .admin-form select {
+    width: 100%;
+    border: 1px solid #E8F0EB;
+    border-radius: 14px;
+    padding: 14px 16px;
+    background: #FFFFFF;
+    color: #4A4A4A;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 15px;
+    outline: none;
+  }
+  
+  .admin-form textarea {
+    min-height: 120px;
+    resize: vertical;
+  }
+  
+  .admin-form input:focus,
+  .admin-form textarea:focus,
+  .admin-form select:focus {
+    border-color: #3F5C4E;
+  }
+  
+  .checkbox-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+  
+  .checkbox-grid label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #F7F4EE;
+    border-radius: 999px;
+    padding: 10px 14px;
+    color: #4A4A4A;
+    font-size: 14px;
+  }
+  
+  .checkbox-grid input {
+    width: auto;
+  }
+  
+  .save-btn {
+    align-self: flex-start;
+    border: none;
+    border-radius: 999px;
+    background: #3F5C4E;
+    color: #FCFBF8;
+    padding: 14px 28px;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  
+  .save-btn:hover {
+    background: #2f463a;
+  }
+  
+  .product-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 18px 0;
+    border-bottom: 1px solid #E8F0EB;
+  }
+  
+  .product-row:last-child {
+    border-bottom: none;
+  }
+  
+  .product-info {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+  
+  .product-info img {
+    width: 74px;
+    height: 74px;
+    object-fit: cover;
+    border-radius: 16px;
+    background: #F7F4EE;
+  }
+  
+  .product-info strong {
+    color: #3F5C4E;
+    font-size: 17px;
+  }
+  
+  .product-info p {
+    margin: 6px 0 0;
+    color: #C9A96A;
+    font-weight: 700;
+  }
+  
+  .delete-btn {
+    border: 1px solid #C9A96A;
+    background: transparent;
+    color: #C9A96A;
+    border-radius: 999px;
+    padding: 10px 18px;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  
+  .delete-btn:hover {
+    background: #C9A96A;
+    color: #FCFBF8;
+  }
+  .product-buttons {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .edit-btn {
+    border: 1px solid #3F5C4E;
+    background: transparent;
+    color: #3F5C4E;
+    border-radius: 999px;
+    padding: 10px 18px;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  
+  .edit-btn:hover {
+    background: #3F5C4E;
+    color: #FCFBF8;
+  }
+  .back-home {
+    display: inline-block;
+    margin-bottom: 24px;
+    color: #3F5C4E;
+    font-weight: 700;
+    text-decoration: none;
+  }
+  
+  .back-home:hover {
+    color: #C9A96A;
+  }
+  /* ORDERS ADMIN */
+
+.admin-orders {
+  max-width: 1100px;
+}
+
+.order-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.order-filters button {
+  border: 1px solid #3F5C4E;
+  background: transparent;
+  color: #3F5C4E;
+  border-radius: 999px;
+  padding: 10px 18px;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.order-filters button.active,
+.order-filters button:hover {
+  background: #3F5C4E;
+  color: #FCFBF8;
+}
+
+.empty-orders {
+  background: #F7F4EE;
+  border-radius: 18px;
+  padding: 18px;
+  color: #4A4A4A;
+  font-weight: 600;
+}
+
+.order-card {
+  background: #FFFFFF;
+  border: 1px solid #E8F0EB;
+  border-radius: 22px;
+  padding: 24px;
+  margin-bottom: 18px;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.045);
+}
+
+.order-card h3 {
+  margin: 0 0 16px;
+  color: #3F5C4E;
+  font-size: 22px;
+}
+
+.order-card p {
+  margin: 8px 0;
+  color: #4A4A4A;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.order-card strong {
+  color: #3F5C4E;
+}
+
+.order-card label {
+  display: block;
+  margin: 18px 0 8px;
+  color: #3F5C4E;
+  font-weight: 700;
+}
+
+.order-card select {
+  width: 220px;
+  border: 1px solid #E8F0EB;
+  border-radius: 999px;
+  padding: 11px 14px;
+  background: #FCFBF8;
+  color: #4A4A4A;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 600;
+  outline: none;
+}
+
+.order-card select:focus {
+  border-color: #3F5C4E;
+}
+
+.order-card .delete-btn {
+  margin-top: 18px;
+} 
+  /* TABLET */
+  @media (max-width: 1024px) {
+    .admin-page {
+      padding: 48px 32px;
+    }
+  
+    .admin-header h1 {
+      font-size: 40px;
+    }
+  }
+  
+  /* MÒBIL */
+  @media (max-width: 700px) {
+    .admin-page {
+      padding: 36px 20px;
+    }
+  
+    .admin-header h1 {
+      font-size: 34px;
+    }
+  
+    .admin-actions {
+      flex-direction: column;
+    }
+  
+    .admin-card {
+      padding: 24px;
+    }
+  
+    .form-grid {
+      grid-template-columns: 1fr;
+    }
+  
+    .product-row {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+  
+    .delete-btn {
+      width: 100%;
+    }
+    .order-filters {
+      flex-direction: column;
+    }
+    
+    .order-filters button {
+      width: 100%;
+    }
+    
+    .order-card {
+      padding: 20px;
+    }
+    
+    .order-card select {
+      width: 100%;
+    }
+    
+    .order-card .delete-btn {
+      width: 100%;
+    }
+  }

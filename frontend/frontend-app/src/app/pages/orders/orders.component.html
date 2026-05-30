@@ -1,0 +1,74 @@
+<app-header></app-header>
+<section class="orders-page">
+
+  <h1>Les meues comandes</h1>
+
+  <p class="intro">
+    Consulta les teues comandes realitzades i les comandes programades.
+  </p>
+
+  <p *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </p>
+
+  <div class="orders-list" *ngIf="groupedOrders.length > 0">
+
+    <article class="order-card" *ngFor="let order of groupedOrders">
+
+      <div class="order-header">
+        <div>
+          <h2>Comanda #{{ order.id }}</h2>
+          <p>{{ order.created_at | date:'dd/MM/yyyy HH:mm' }}</p>
+        </div>
+      
+        <div class="order-actions">
+      
+          <button class="checkout-btn" (click)="completeOrder(order.id)">
+            Pagar
+          </button>
+      
+          <button class="edit-btn" (click)="editOrder(order)">
+            Editar
+          </button>
+      
+          <button class="delete-btn" (click)="deleteOrder(order.id)">
+            Eliminar
+          </button>
+      
+        </div>
+      </div>
+    
+
+      <div class="order-products">
+
+        <div class="order-product" *ngFor="let product of order.products">
+          <img
+            [src]="'http://localhost:3000/images/' + product.image"
+            [alt]="product.name"
+          >
+
+          <div>
+            <strong>{{ product.name }}</strong>
+            <p>Quantitat: {{ product.quantity }}</p>
+            <span>{{ product.unit_price | number:'1.2-2' }} €</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="order-total">
+        <span>Total</span>
+        <strong>{{ order.total | number:'1.2-2' }} €</strong>
+      </div>
+
+    </article>
+
+  </div>
+
+  <div class="empty-orders" *ngIf="!errorMessage && groupedOrders.length === 0">
+    <p>Encara no tens cap comanda.</p>
+    <a routerLink="/products">Explora productes</a>
+  </div>
+
+</section>
+<app-footer></app-footer>

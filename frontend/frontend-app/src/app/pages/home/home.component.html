@@ -1,9 +1,211 @@
-<section class="home">
-    <h1>Benvingut/da a Herbolari Susana</h1>
-    <p>Botiga online de productes naturals, alimentació i benestar.</p>
-  
-    <div class="buttons">
-      <a routerLink="/products" class="btn">Veure productes</a>
-      <a routerLink="/cart" class="btn secondary">Veure carret</a>
+<app-header></app-header>
+<main>
+  <section class="hero">
+    <div class="hero-content">
+      <h1>
+        <span>Herbolari</span>
+        Susana
+      </h1>
+
+      <p>
+        Productes naturals i assessorament personalitzat
+        per al teu benestar i el de la teua família.
+      </p>
+
+      <div class="hero-buttons">
+        <button routerLink="/cart" class="btn btn-primary">La teua comanda</button>
+        <button routerLink="/products" class="btn btn-secondary">Explora</button>
+      </div>
+    </div>
+
+    <div class="hero-image">
+      <img src="assets/hero.image.webp" alt="Productes naturals d’herbolari" loading="lazy">
+      
     </div>
   </section>
+
+  <section class="section products-section">
+    <div class="section-header">
+      <h2>Novetats</h2>
+      <a routerLink="/products">Veure totes →</a>
+    </div>
+  
+    <div class="products-grid" *ngIf="newProducts.length > 0; else noNews">
+      <article class="product-card" *ngFor="let product of newProducts">
+        <img 
+          [src]="'http://localhost:3000/images/' + product.image"
+          [alt]="product.name"
+        >
+  
+        <small>PRODUCTE</small>
+        <h3>{{ product.name }}</h3>
+        <p class="price">{{ product.price }} €</p>
+  
+        <button 
+          class="card-cart" 
+          type="button"
+          (click)="addToCart(product)"
+          [attr.aria-label]="'Afegir ' + product.name + ' al carret'">
+          <img src="assets/icons/carro-de-la-compra.svg" alt="">
+        </button>
+      </article>
+    </div>
+  
+    <ng-template #noNews>
+      <p class="empty-message">Encara no hi ha productes disponibles.</p>
+    </ng-template>
+  
+    <div class="slider-dots" *ngIf="newProducts.length > 0">
+      <span class="active"></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </section>
+
+  <section class="help-section">
+    <h2>T’ajudem en la teua compra</h2>
+    <p class="section-subtitle">
+      T’assessorem en tot el procés i estem al teu costat sempre que ens necessites.
+    </p>
+
+    <div class="help-grid">
+      <article class="help-card">
+        <div class="help-icon">
+          <img src="assets/icons/conversacion.svg" alt="">
+        </div>
+        <h3>Assessorament</h3>
+        <p>T’escoltem i t’ajudem a trobar els productes que millor s’adapten a tu.</p>
+      </article>
+
+      <article class="help-card">
+        <div class="help-icon">
+          <img src="assets/icons/entrega-rapida.svg" alt="">
+        </div>
+        <h3>Lliurament</h3>
+        <p>Enviament ràpid i segur en 24/48 h laborables a tota la península.</p>
+      </article>
+
+      <article class="help-card">
+        <div class="help-icon">
+          <img src="assets/icons/calendario 2.svg" alt="">
+        </div>
+        <h3>Guarda la teua compra</h3>
+        <p>Rep els teus productes de manera còmoda amb la nostra subscripció mensual.</p>
+        <button routerLink="/subscription" class="btn btn-small">
+          Subscriu-te
+        </button>
+      </article>
+    </div>
+  </section>
+
+  <section class="section collaborators-section">
+    <h2>Col·laboradors</h2>
+    <p class="section-subtitle">
+      Professionals que comparteixen la nostra passió per la salut natural.
+    </p>
+
+    <div class="collaborators-grid">
+      <article class="collaborator-card">
+        <img src="assets/laura_ferrer.webp"alt="Laura Ferrer"class="collaborator-avatar"loading="lazy"/>
+        <h3>Laura Ferrer</h3>
+        <p>Fisioterapeuta</p>
+        <div class="mini-icons">
+
+          <button class="mini-icon-btn" aria-label="Telefonar a Laura Ferrer">
+            <img src="assets/icons/telefono.svg" alt="">
+          </button>
+        
+          <button class="mini-icon-btn" aria-label="Enviar missatge a Laura Ferrer">
+            <img src="assets/icons/bocadillo.svg" alt="">
+          </button>
+        
+        </div>
+      </article>
+
+      <article class="collaborator-card">
+        <img src="assets/marc_soler.webp"alt="Marc Soler"class="collaborator-avatar"loading="lazy"/>
+        <h3>Marc Soler</h3>
+        <p>Otorrinolaringòleg</p>
+        <div class="mini-icons">
+
+          <button class="mini-icon-btn" aria-label="Telefonar a Marc Soler">
+            <img src="assets/icons/telefono.svg" alt="">
+          </button>
+        
+          <button class="mini-icon-btn" aria-label="Enviar missatge a Marc Soler">
+            <img src="assets/icons/bocadillo.svg" alt="">
+          </button>
+        
+        </div>
+      </article>
+
+      <article class="collaborator-card">
+        <img src="assets/marta_vidal.webp"alt="Marta Vidal"class="collaborator-avatar"loading="lazy"/>
+        <h3>Marta Vidal</h3>
+        <p>Dietista</p>
+        <div class="mini-icons">
+
+          <button class="mini-icon-btn" aria-label="Telefonar a Marta Vidal">
+            <img src="assets/icons/telefono.svg" alt="">
+          </button>
+        
+          <button class="mini-icon-btn" aria-label="Enviar missatge a Marta Vidal">
+            <img src="assets/icons/bocadillo.svg" alt="">
+          </button>
+        
+        </div>
+      </article>
+
+
+      <article class="collaborator-card">
+        <img src="assets/angels-marti.webp"alt="Àngels Martí"class="collaborator-avatar"loading="lazy"/>
+        <h3>Àngels Martí</h3>
+        <p>Al·lergòloga</p>
+        <div class="mini-icons">
+
+          <button class="mini-icon-btn" aria-label="Telefonar a Àngels Martí">
+            <img src="assets/icons/telefono.svg" alt="">
+          </button>
+        
+          <button class="mini-icon-btn" aria-label="Enviar missatge a Àngels Martí">
+            <img src="assets/icons/bocadillo.svg" alt="">
+          </button>
+        
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <section class="section testimonials-section">
+    <h2>Confia amb els nostres clients</h2>
+
+    <div class="testimonials-grid">
+      <article class="testimonial-card">
+        <span class="quote">“</span>
+        <p>Atenció personalitzada i productes de gran qualitat. Sempre trobe el que necessite.</p>
+        <strong>Maria L.</strong>
+        <small>València</small>
+        <div class="stars">★★★★★</div>
+      </article>
+
+      <article class="testimonial-card">
+        <span class="quote">“</span>
+        <p>Enviament súper ràpid i tot ve molt ben embalat. La subscripció mensual és molt útil.</p>
+        <strong>Jordi P.</strong>
+        <small>Castelló</small>
+        <div class="stars">★★★★★</div>
+      </article>
+
+      <article class="testimonial-card">
+        <span class="quote">“</span>
+        <p>Herbolari Susana és confiança. Porten anys cuidant de mi i de la meua família.</p>
+        <strong>Anna G.</strong>
+        <small>Alacant</small>
+        <div class="stars">★★★★★</div>
+      </article>
+    </div>
+  </section>
+</main>
+<app-footer></app-footer>

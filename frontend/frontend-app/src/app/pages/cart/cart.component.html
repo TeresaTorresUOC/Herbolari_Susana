@@ -4,15 +4,36 @@
   El carret està buit.
 </div>
 
-<ul *ngIf="items.length > 0">
-  <li *ngFor="let item of items; let i = index">
-    {{ item.name }} - {{ item.price }} €
+<div class="cart-list" *ngIf="items.length > 0">
 
-    <button (click)="removeItem(i)">
-      Eliminar
-    </button>
-  </li>
-</ul>
+  <div class="cart-item" *ngFor="let item of items">
+
+    <img
+      class="cart-image"
+      [src]="'http://localhost:3000/images/' + item.image"
+      [alt]="item.name"
+    >
+
+    <div class="cart-info">
+      <h3>{{ item.name }}</h3>
+
+      <p>Preu unitari: {{ item.price }} €</p>
+
+      <p>Quantitat: {{ item.quantity || 1 }}</p>
+
+      <p>
+        Subtotal:
+        {{ item.price * (item.quantity || 1) }} €
+      </p>
+
+      <button (click)="removeItem(item.id)">
+        Eliminar
+      </button>
+    </div>
+
+  </div>
+
+</div>
 
 <h3 *ngIf="items.length > 0">
   Total: {{ getTotal() }} €

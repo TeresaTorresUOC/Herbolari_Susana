@@ -1,0 +1,148 @@
+.favorites-page {
+    min-height: calc(100vh - 88px);
+    padding: 56px 72px;
+    background: #F7F4EE;
+    font-family: 'Quicksand', sans-serif;
+  }
+  
+  .back-link {
+    display: inline-block;
+    margin-bottom: 24px;
+    color: #3F5C4E;
+    font-weight: 700;
+    text-decoration: none;
+  }
+  
+  .favorites-header {
+    margin-bottom: 32px;
+  }
+  
+  .kicker {
+    color: #C9A96A;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  
+  .favorites-header h1 {
+    margin: 0;
+    color: #3F5C4E;
+    font-size: 48px;
+  }
+  
+  .favorites-header p {
+    max-width: 620px;
+    color: #4A4A4A;
+    line-height: 1.6;
+  }
+  
+  .favorites-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+  
+  .product-card {
+    position: relative;
+    background: #FCFBF8;
+    border: 1px solid #E8F0EB;
+    border-radius: 24px;
+    padding: 22px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+  }
+  
+  .product-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 18px;
+    background: #F7F4EE;
+  }
+  
+  .product-card h3 {
+    color: #3F5C4E;
+  }
+  
+  .description {
+    color: #4A4A4A;
+    font-size: 14px;
+  }
+  
+  .price {
+    color: #C9A96A;
+    font-weight: 700;
+  }
+  
+  .favorite-btn {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    border: none;
+    background: #FCFBF8;
+    color: #C9A96A;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+  }
+  
+  .favorite-btn.active {
+    background: #C9A96A;
+    color: #FCFBF8;
+  }
+  
+  .cart-btn,
+  .empty-card a {
+    display: inline-block;
+    border: none;
+    border-radius: 999px;
+    background: #3F5C4E;
+    color: #FCFBF8;
+    padding: 12px 20px;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+  .empty-card {
+    max-width: 520px;
+    background: #FCFBF8;
+    border-radius: 24px;
+    padding: 32px;
+    border: 1px solid #E8F0EB;
+  }
+  
+  .empty-card h2 {
+    color: #3F5C4E;
+  }
+  
+  .empty-card p {
+    color: #4A4A4A;
+  }
+  
+  @media (max-width: 1024px) {
+    .favorites-page {
+      padding: 48px 32px;
+    }
+  
+    .favorites-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (max-width: 700px) {
+    .favorites-page {
+      padding: 36px 20px;
+    }
+  
+    .favorites-header h1 {
+      font-size: 36px;
+    }
+  
+    .favorites-grid {
+      grid-template-columns: 1fr;
+    }
+  }

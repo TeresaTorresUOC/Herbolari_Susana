@@ -1,0 +1,50 @@
+<app-header></app-header>
+<section class="favorites-page">
+  
+    <div class="favorites-header">
+      <p class="kicker">La teua selecció</p>
+      <h1>Favorits</h1>
+      <p>
+        Guarda els productes que més t’interessen i torna a consultar-los quan vulgues.
+      </p>
+    </div>
+  
+    <div *ngIf="favorites.length > 0; else emptyFavorites" class="favorites-grid">
+  
+      <article class="product-card" *ngFor="let product of favorites">
+  
+        <button
+          type="button"
+          class="favorite-btn active"
+          (click)="removeFavorite(product.id)">
+          ♥
+        </button>
+  
+        <img
+          [src]="'http://localhost:3000/images/' + product.image"
+          [alt]="product.name"
+          loading="lazy"
+        >
+  
+        <h3>{{ product.name }}</h3>
+        <p class="description">{{ product.description }}</p>
+        <p class="price">{{ product.price }} €</p>
+  
+        <button class="cart-btn" type="button" (click)="addToCart(product)">
+          Afegir al carret
+        </button>
+  
+      </article>
+  
+    </div>
+  
+    <ng-template #emptyFavorites>
+      <div class="empty-card">
+        <h2>Encara no tens favorits</h2>
+        <p>Quan marques un producte amb el cor, apareixerà ací.</p>
+        <a routerLink="/products">Explorar productes</a>
+      </div>
+    </ng-template>
+  
+  </section>
+  <app-footer></app-footer>

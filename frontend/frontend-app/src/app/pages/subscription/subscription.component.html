@@ -1,0 +1,228 @@
+<app-header></app-header>
+
+<section class="subscription-page">
+
+  
+    <h1>Programar comanda</h1>
+  
+    <p class="intro">
+      Rep la teua comanda a casa o deixa-la preparada a la tenda amb la freqüència
+      que millor s’adapte a tu.
+    </p>
+  
+    <div class="subscription-layout">
+  
+      <form class="subscription-card" (ngSubmit)="saveSubscription()">
+  
+        <h2>1. Dades d'entrega</h2>
+  
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Nom complet</label>
+            <input type="text" name="fullName" [(ngModel)]="fullName" placeholder="Introdueix el teu nom" required>
+          </div>
+  
+          <div class="form-group">
+            <label>Direcció d'entrega</label>
+            <input type="text" name="address" [(ngModel)]="address" placeholder="Introdueix la teua adreça" required>
+          </div>
+  
+          <div class="form-group">
+            <label>Codi postal</label>
+            <input type="text" name="postalCode" [(ngModel)]="postalCode" placeholder="Introdueix el codi postal" required>
+          </div>
+  
+          <div class="form-group">
+            <label>Població</label>
+            <input type="text" name="city" [(ngModel)]="city" placeholder="Introdueix la teua població" required>
+          </div>
+  
+          <div class="form-group">
+            <label>Telèfon</label>
+            <input type="tel" name="phone" [(ngModel)]="phone" placeholder="Introdueix el teu telèfon" required>
+          </div>
+  
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" name="email" [(ngModel)]="email" placeholder="Introdueix el teu email" required>
+          </div>
+        </div>
+  
+        <h2>2. Quan vols rebre la teua comanda?</h2>
+  
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Dia de la setmana</label>
+            <select name="day" [(ngModel)]="day" required>
+              <option value="">Selecciona un dia</option>
+              <option value="dilluns">Dilluns</option>
+              <option value="dimarts">Dimarts</option>
+              <option value="dimecres">Dimecres</option>
+              <option value="dijous">Dijous</option>
+              <option value="divendres">Divendres</option>
+            </select>
+          </div>
+  
+          <div class="form-group">
+            <label>Hora preferida</label>
+            <select name="hour" [(ngModel)]="hour" required>
+              <option value="">Selecciona una hora</option>
+              <option value="09:00-11:00">09:00 - 11:00</option>
+              <option value="11:00-13:00">11:00 - 13:00</option>
+              <option value="16:00-18:00">16:00 - 18:00</option>
+              <option value="18:00-20:00">18:00 - 20:00</option>
+            </select>
+          </div>
+        </div>
+  
+        <h2>3. Freqüència de la comanda</h2>
+  
+        <div class="frequency-options">
+
+          <label class="frequency-option" [class.active]="frequency === 'setmana'">
+        
+            <input
+              type="radio"
+              name="frequency"
+              value="setmana"
+              [(ngModel)]="frequency"
+            >
+        
+            <img
+              src="assets/icons/calendario 2.svg"
+              alt=""
+              class="frequency-icon"
+            >
+        
+            <div>
+              <strong>Cada setmana</strong>
+              <p>Cada 7 dies</p>
+            </div>
+        
+          </label>
+        
+          <label class="frequency-option" [class.active]="frequency === 'quinze-dies'">
+        
+            <input
+              type="radio"
+              name="frequency"
+              value="quinze-dies"
+              [(ngModel)]="frequency"
+            >
+        
+            <img
+              src="assets/icons/calendario 2.svg"
+              alt=""
+              class="frequency-icon"
+            >
+        
+            <div>
+              <strong>Cada 2 setmanes</strong>
+              <p>Cada 14 dies</p>
+            </div>
+        
+          </label>
+        
+          <label class="frequency-option" [class.active]="frequency === 'mes'">
+        
+            <input
+              type="radio"
+              name="frequency"
+              value="mes"
+              [(ngModel)]="frequency"
+            >
+        
+            <img
+              src="assets/icons/calendario 2.svg"
+              alt=""
+              class="frequency-icon"
+            >
+        
+            <div>
+              <strong>Cada mes</strong>
+              <p>Cada 30 dies</p>
+            </div>
+        
+          </label>
+        
+        </div>
+  
+        <h2>4. Observacions <span>(opcional)</span></h2>
+  
+        <textarea
+          name="observations"
+          [(ngModel)]="observations"
+          placeholder="Ex. Porta al veí, truca abans, etc.">
+        </textarea>
+  
+        <button type="submit" class="submit-btn">
+          Guardar subscripció
+        </button>
+  
+      </form>
+  
+      <aside class="order-summary">
+  
+        <h2>La teua comanda</h2>
+  
+        <ng-container *ngIf="cartCount > 0; else emptyCart">
+  
+          <div class="summary-item" *ngFor="let item of cartItems">
+            <img [src]="'http://localhost:3000/images/' + item.image" [alt]="item.name">
+  
+            <div class="summary-info">
+              <strong>{{ item.name }}</strong>
+              <p>{{ item.description }}</p>
+              <small>Quantitat: {{ item.quantity || 1 }}</small>
+            </div>
+  
+            <span>{{ item.price * (item.quantity || 1) | number:'1.2-2' }}€</span>
+          </div>
+  
+          <a routerLink="/products" class="add-more">
+            Afegir més productes <strong>+</strong>
+          </a>
+  
+          <div class="summary-line">
+            <span>Subtotal</span>
+            <strong>{{ cartTotal | number:'1.2-2' }}€</strong>
+          </div>
+  
+          <div class="summary-line">
+            <span>Enviament</span>
+            <strong>Gratuït</strong>
+          </div>
+  
+          <div class="summary-total">
+            <span>Total</span>
+            <strong>{{ cartTotal | number:'1.2-2' }}€</strong>
+          </div>
+  
+          <div class="secure-box">
+            <img
+              src="assets/icons/hoja.svg"
+              alt=""
+              class="frequency-icon"
+            >
+        
+            <p>
+              Pots cancel·lar o modificar la teua subscripció quan vulgues des del teu compte.
+            </p>
+          </div>
+  
+        </ng-container>
+  
+        <ng-template #emptyCart>
+          <div class="empty-cart">
+            <p>No tens productes al carret.</p>
+            <a routerLink="/products">Explora productes</a>
+          </div>
+        </ng-template>
+  
+      </aside>
+  
+    </div>
+  
+  </section>
+
+  <app-footer></app-footer>
