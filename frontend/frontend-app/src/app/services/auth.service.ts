@@ -12,8 +12,8 @@ export interface LoginData {
 })
 export class AuthService {
 
-  private loginUrl = 'http://localhost:3000/login';
-  private registerUrl = 'http://localhost:3000/register';
+  private loginUrl = 'https://herbolari-susana.onrender.com/login';
+  private registerUrl = 'https://herbolari-susana.onrender.com/register';
 
   private currentUserSubject = new BehaviorSubject<any>(this.getUserFromStorage());
   currentUser$ = this.currentUserSubject.asObservable();

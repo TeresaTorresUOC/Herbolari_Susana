@@ -16,7 +16,7 @@ export interface OrderData {
 })
 export class OrderService {
 
-  private apiUrl = 'http://localhost:3000/orders';
+  private apiUrl = 'https://herbolari-susana.onrender.com/orders';
 
   constructor(private http: HttpClient) {}
 

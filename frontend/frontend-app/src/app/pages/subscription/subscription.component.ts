@@ -73,7 +73,7 @@ export class SubscriptionComponent {
   
     console.log('DADES QUE ENVIE:', subscriptionData);
   
-    this.http.post('http://localhost:3000/orders', subscriptionData)
+    this.http.post('https://herbolari-susana.onrender.com/orders', subscriptionData)
       .subscribe({
         next: (res) => {
           console.log('RESPOSTA BACKEND:', res);

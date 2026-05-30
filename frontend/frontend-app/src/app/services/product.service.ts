@@ -27,7 +27,7 @@ export interface Product {
   providedIn: 'root'
 })
 export class ProductService {
-  private apiUrl = 'http://localhost:3000/products';
+  private apiUrl = 'https://herbolari-susana.onrender.com/products';
 
   constructor(private http: HttpClient) {}
 
