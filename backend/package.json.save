@@ -7,9 +7,6 @@
     "start": "node server.js",
     "dev": "nodemon server.js"
   },
-  "engines": {
-    "node": "20.x"
-  },
   "keywords": [],
   "author": "nombre_usuario <usuario@example.com>",
   "license": "MIT",
