@@ -52,17 +52,29 @@ db.serialize(() => {
   )
 `);
 
-  db.run(`
-    CREATE TABLE IF NOT EXISTS orders (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      user_id INTEGER,
-      total REAL,
-      status TEXT,
-      delivery_type TEXT,
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-      FOREIGN KEY (user_id) REFERENCES users(id)
-    )
-  `);
+db.run(`
+  CREATE TABLE IF NOT EXISTS orders (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER,
+    total REAL,
+    status TEXT,
+    delivery_type TEXT,
+
+    full_name TEXT,
+    address TEXT,
+    postal_code TEXT,
+    city TEXT,
+    phone TEXT,
+    email TEXT,
+    day TEXT,
+    hour TEXT,
+    frequency TEXT,
+    observations TEXT,
+
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+  )
+`);
 
   db.run(`
     CREATE TABLE IF NOT EXISTS order_details (

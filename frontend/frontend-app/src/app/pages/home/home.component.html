@@ -13,7 +13,7 @@
       </p>
 
       <div class="hero-buttons">
-        <button routerLink="/cart" class="btn btn-primary">La teua comanda</button>
+        <button routerLink="/orders" class="btn btn-primary">Comandes programades</button>
         <button routerLink="/products" class="btn btn-secondary">Explora</button>
       </div>
     </div>
@@ -33,7 +33,7 @@
     <div class="products-grid" *ngIf="newProducts.length > 0; else noNews">
       <article class="product-card" *ngFor="let product of newProducts">
         <img 
-          [src]="'http://localhost:3000/images/' + product.image"
+          [src]="'https://herbolari-susana.onrender.com/images/' + product.image"
           [alt]="product.name"
         >
   

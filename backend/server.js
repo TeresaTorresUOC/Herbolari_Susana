@@ -387,7 +387,23 @@ app.get('/orders/user/:userId', (req, res) => {
 
 
 app.post('/orders', (req, res) => {
-  const { user_id, items, total, status, delivery_type } = req.body || {};
+  const {
+    user_id,
+    items,
+    total,
+    status,
+    delivery_type,
+    full_name,
+    address,
+    postal_code,
+    city,
+    phone,
+    email,
+    day,
+    hour,
+    frequency,
+    observations
+  } = req.body || {};
 
   if (
     !user_id ||
@@ -403,14 +419,33 @@ app.post('/orders', (req, res) => {
   }
 
   const insertOrderSql = `
-    INSERT INTO orders (user_id, total, status, delivery_type)
-    VALUES (?, ?, ?, ?)
-  `;
+  INSERT INTO orders (
+    user_id, total, status, delivery_type,
+    full_name, address, postal_code, city, phone, email,
+    day, hour, frequency, observations
+  )
+  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+`;
 
-  db.run(
-    insertOrderSql,
-    [user_id, total, status, delivery_type],
-    function (err) {
+db.run(
+  insertOrderSql,
+  [
+    user_id,
+    total,
+    status,
+    delivery_type,
+    full_name || '',
+    address || '',
+    postal_code || '',
+    city || '',
+    phone || '',
+    email || '',
+    day || '',
+    hour || '',
+    frequency || '',
+    observations || ''
+  ],
+  function (err) {
       if (err) {
         console.error('Error creant comanda:', err.message);
         return res.status(500).json({

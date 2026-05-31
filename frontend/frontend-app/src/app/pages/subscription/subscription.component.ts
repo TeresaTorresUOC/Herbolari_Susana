@@ -67,7 +67,18 @@ export class SubscriptionComponent {
       items: this.cartItems,
       total: this.cartTotal,
       status: 'programada',
-      delivery_type: 'subscripcio'
+      delivery_type: 'subscripcio',
+    
+      full_name: this.fullName,
+      address: this.address,
+      postal_code: this.postalCode,
+      city: this.city,
+      phone: this.phone,
+      email: this.email,
+      day: this.day,
+      hour: this.hour,
+      frequency: this.frequency,
+      observations: this.observations
     };
   
     console.log('DADES QUE ENVIE:', subscriptionData);

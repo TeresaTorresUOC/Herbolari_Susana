@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
+import { OrderService } from '../../services/order.service';
+import { AuthService } from '../../services/auth.service';
 import { RouterLink, Router } from '@angular/router';
 import { HeaderComponent } from '../../components/header/header.component';
 import { FooterComponent } from '../../components/footer/footer.component';
@@ -22,73 +23,72 @@ export class OrdersComponent implements OnInit {
   errorMessage = '';
 
   constructor(
-    private http: HttpClient,
+    private orderService: OrderService,
+    private authService: AuthService,
     private cdr: ChangeDetectorRef,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
-
+    const user = this.authService.getCurrentUser();
+  
+    console.log('USUARI EN ORDERS:', user);
+  
     if (!user || !user.id) {
       this.loading = false;
-      this.errorMessage = 'No hi ha cap usuari iniciat.';
+      this.errorMessage = 'Has d’iniciar sessió per veure les teues comandes.';
       this.cdr.detectChanges();
       return;
     }
-
-    this.http
-      .get<any[]>(`http://localhost:3000/orders/user/${user.id}`)
-      .subscribe({
-        next: (data) => {
-          this.orders = data || [];
-          this.groupOrders();
-
-          this.loading = false;
-          this.errorMessage = '';
-
-          this.cdr.detectChanges();
-        },
-        error: (err) => {
-          console.error('Error carregant comandes:', err);
-
-          this.loading = false;
-          this.errorMessage = 'No s’han pogut carregar les comandes.';
-
-          this.cdr.detectChanges();
-        }
-      });
+  
+    this.orderService.getUserOrders(user.id).subscribe({
+      next: (data) => {
+        console.log('COMANDES DE L USUARI:', data);
+  
+        this.orders = data || [];
+        this.groupOrders();
+  
+        this.loading = false;
+        this.errorMessage = '';
+  
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Error carregant comandes:', err);
+  
+        this.loading = false;
+        this.errorMessage = 'No s’han pogut carregar les comandes.';
+  
+        this.cdr.detectChanges();
+      }
+    });
   }
   completeOrder(orderId: number): void {
-    this.http
-      .put(`http://localhost:3000/orders/${orderId}/status`, { status: 'pagada' })
-      .subscribe({
-        next: () => {
-          this.router.navigate(['/confirmation']);
-        },
-        error: (err) => {
-          console.error('Error completant comanda:', err);
-          this.errorMessage = 'No s’ha pogut completar la comanda.';
-        }
-      });
+    this.orderService.updateOrderStatus(orderId, 'pagada').subscribe({
+      next: () => {
+        this.router.navigate(['/confirmation']);
+      },
+      error: (err) => {
+        console.error('Error completant comanda:', err);
+        this.errorMessage = 'No s’ha pogut completar la comanda.';
+      }
+    });
   }
   deleteOrder(orderId: number): void {
     if (!confirm('Segur que vols eliminar aquesta comanda?')) {
       return;
     }
   
-    this.http
-      .delete(`http://localhost:3000/orders/${orderId}`)
-      .subscribe({
-        next: () => {
-          this.groupedOrders = this.groupedOrders.filter(order => order.id !== orderId);
-          this.orders = this.orders.filter(order => order.id !== orderId);
-        },
-        error: (err) => {
-          console.error('Error eliminant comanda:', err);
-          this.errorMessage = 'No s’ha pogut eliminar la comanda.';
-        }
-      });
+    this.orderService.deleteOrder(orderId).subscribe({
+      next: () => {
+        this.groupedOrders = this.groupedOrders.filter(order => order.id !== orderId);
+        this.orders = this.orders.filter(order => order.id !== orderId);
+      },
+      error: (err) => {
+        console.error('Error eliminant comanda:', err);
+        this.errorMessage = 'No s’ha pogut eliminar la comanda.';
+      }
+    });
   }
   
   editOrder(order: any): void {
@@ -111,6 +111,18 @@ export class OrdersComponent implements OnInit {
           status: row.status,
           delivery_type: row.delivery_type,
           created_at: row.created_at,
+        
+          full_name: row.full_name,
+          address: row.address,
+          postal_code: row.postal_code,
+          city: row.city,
+          phone: row.phone,
+          email: row.email,
+          day: row.day,
+          hour: row.hour,
+          frequency: row.frequency,
+          observations: row.observations,
+        
           products: []
         });
       }

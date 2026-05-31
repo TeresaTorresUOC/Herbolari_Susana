@@ -215,56 +215,144 @@
     </div>
       
     <div *ngFor="let order of filteredGroupedOrders" class="order-card">
-  
-      <h3>Comanda #{{ order.id }}</h3>
-  
-      <p><strong>Client:</strong> {{ order.user_name }} - {{ order.user_email }}</p>
-      <p><strong>Data:</strong> {{ order.created_at }}</p>
-      <p><strong>Tipus:</strong> {{ order.delivery_type }}</p>
-      <p><strong>Total:</strong> {{ order.total }}€</p>
-  
-      <div class="order-products">
 
+      <h3>Comanda #{{ order.id }}</h3>
+    
+      <p>
+        <strong>Client:</strong>
+        {{ order.user_name }} - {{ order.user_email }}
+      </p>
+    
+      <p>
+        <strong>Data:</strong>
+        {{ order.created_at }}
+      </p>
+    
+      <p>
+        <strong>Tipus:</strong>
+        {{ order.delivery_type }}
+      </p>
+    
+      <p>
+        <strong>Total:</strong>
+        {{ order.total }} €
+      </p>
+    
+  
+    
+      <div class="order-client-data">
+    
+        <h4>Dades del client</h4>
+    
+        <p>
+          <strong>Nom:</strong>
+          {{ order.full_name || order.user_name }}
+        </p>
+    
+        <p>
+          <strong>Email:</strong>
+          {{ order.email || order.user_email }}
+        </p>
+    
+        <p *ngIf="order.phone">
+          <strong>Telèfon:</strong>
+          {{ order.phone }}
+        </p>
+    
+        <p *ngIf="order.address">
+          <strong>Adreça:</strong>
+          {{ order.address }}
+        </p>
+    
+        <p *ngIf="order.postal_code || order.city">
+          <strong>Població:</strong>
+          {{ order.postal_code }} {{ order.city }}
+        </p>
+    
+      </div>
+    
+  
+    
+      <div
+        *ngIf="order.delivery_type === 'subscripcio'"
+        class="order-subscription-data">
+    
+        <h4>Programació de la subscripció</h4>
+    
+        <p *ngIf="order.day">
+          <strong>Dia:</strong>
+          {{ order.day }}
+        </p>
+    
+        <p *ngIf="order.hour">
+          <strong>Hora:</strong>
+          {{ order.hour }}
+        </p>
+    
+        <p *ngIf="order.frequency">
+          <strong>Freqüència:</strong>
+          {{ order.frequency }}
+        </p>
+    
+        <p *ngIf="order.observations">
+          <strong>Observacions:</strong>
+          {{ order.observations }}
+        </p>
+    
+      </div>
+    
+    
+    
+      <div class="order-products">
+    
         <strong>Productes:</strong>
-      
+    
         <div
           *ngFor="let product of order.products"
           class="order-product-line">
-      
-          <span>{{ product.product_name }}</span>
-      
+    
+          <span>
+            {{ product.product_name }}
+          </span>
+    
           <span>
             x{{ product.quantity }}
           </span>
-      
+    
           <span>
             {{ product.unit_price }} €
           </span>
-      
+    
         </div>
-      
+    
       </div>
-  
+    
+    
+    
       <label>Estat:</label>
-  
+    
       <select
         [(ngModel)]="order.status"
         (change)="updateStatus(order.id, order.status)">
+    
         <option value="pendent">Pendent</option>
         <option value="preparant">Preparant</option>
         <option value="enviada">Enviada</option>
         <option value="entregada">Entregada</option>
         <option value="programada">Programada</option>
         <option value="cancel·lada">Cancel·lada</option>
+    
       </select>
-  
+    
       <button
         class="delete-btn"
         type="button"
         (click)="deleteOrder(order.id)">
+    
         Eliminar
+    
       </button>
-  
+    
     </div>
   
   </section>

@@ -12,27 +12,40 @@
     <div *ngIf="favorites.length > 0; else emptyFavorites" class="favorites-grid">
   
       <article class="product-card" *ngFor="let product of favorites">
-  
         <button
-          type="button"
-          class="favorite-btn active"
-          (click)="removeFavorite(product.id)">
-          ♥
-        </button>
-  
+        type="button"
+        class="favorite-btn active"
+        (click)="removeFavorite(product.id)">
+      
         <img
-          [src]="'https://herbolari-susana.onrender.com/images/' + product.image"
-          [alt]="product.name"
-          loading="lazy"
+          src="assets/icons/favorito.svg"
+          alt="Favorit"
         >
+      
+      </button>
+  
+      <img
+        class="product-image"
+        [src]="'https://herbolari-susana.onrender.com/images/' + product.image"
+        [alt]="product.name"
+        loading="lazy"
+       >
   
         <h3>{{ product.name }}</h3>
         <p class="description">{{ product.description }}</p>
-        <p class="price">{{ product.price }} €</p>
+       
   
-        <button class="cart-btn" type="button" (click)="addToCart(product)">
-          Afegir al carret
-        </button>
+        <div class="favorite-card-bottom">
+          <p class="price">{{ product.price }} €</p>
+        
+          <button
+            class="card-cart"
+            type="button"
+            (click)="addToCart(product)"
+            [attr.aria-label]="'Afegir ' + product.name + ' al carret'">
+            <img src="assets/icons/carro-de-la-compra.svg" alt="">
+          </button>
+        </div>
   
       </article>
   

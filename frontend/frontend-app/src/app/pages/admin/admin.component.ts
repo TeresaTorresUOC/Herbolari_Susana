@@ -32,6 +32,18 @@ groupOrders(): void {
         delivery_type: row.delivery_type,
         status: row.status,
         total: row.total,
+      
+        full_name: row.full_name,
+        address: row.address,
+        postal_code: row.postal_code,
+        city: row.city,
+        phone: row.phone,
+        email: row.email,
+        day: row.day,
+        hour: row.hour,
+        frequency: row.frequency,
+        observations: row.observations,
+      
         products: []
       };
 

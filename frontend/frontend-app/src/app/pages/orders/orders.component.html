@@ -37,13 +37,26 @@
       
         </div>
       </div>
-    
+      <div *ngIf="order.delivery_type === 'subscripcio'" class="subscription-info">
+        <p><strong>Subscripció programada</strong></p>
+        <p><strong>Nom:</strong> {{ order.full_name }}</p>
+        <p><strong>Adreça:</strong> {{ order.address }}</p>
+        <p><strong>Població:</strong> {{ order.postal_code }} {{ order.city }}</p>
+        <p><strong>Telèfon:</strong> {{ order.phone }}</p>
+        <p><strong>Email:</strong> {{ order.email }}</p>
+        <p><strong>Dia:</strong> {{ order.day }}</p>
+        <p><strong>Hora:</strong> {{ order.hour }}</p>
+        <p><strong>Freqüència:</strong> {{ order.frequency }}</p>
+        <p *ngIf="order.observations">
+          <strong>Observacions:</strong> {{ order.observations }}
+        </p>
+      </div>
 
       <div class="order-products">
 
         <div class="order-product" *ngFor="let product of order.products">
           <img
-            [src]="'http://localhost:3000/images/' + product.image"
+            [src]="'https://herbolari-susana.onrender.com/images/' + product.image"
             [alt]="product.name"
           >
 
