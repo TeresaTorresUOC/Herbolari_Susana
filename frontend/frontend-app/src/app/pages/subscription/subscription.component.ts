@@ -5,7 +5,7 @@ import { Router, RouterLink } from '@angular/router';
 import { CartService } from '../../services/cart.service';
 import { HeaderComponent } from '../../components/header/header.component';
 import { FooterComponent } from '../../components/footer/footer.component';
-import { HttpClient } from '@angular/common/http';
+import { OrderService } from '../../services/order.service';
 import { AuthService} from '../../services/auth.service';
 
 @Component({
@@ -30,7 +30,7 @@ export class SubscriptionComponent {
 
   constructor(
     public cartService: CartService,
-    private http: HttpClient,
+    private orderService: OrderService,
     private router: Router,
     private authService: AuthService
   ) {}
@@ -54,7 +54,6 @@ export class SubscriptionComponent {
   
     if (!user || !user.id) {
       alert('Has d’iniciar sessió per guardar una subscripció');
-      this.router.navigate(['/login']);
       return;
     }
   
@@ -73,19 +72,18 @@ export class SubscriptionComponent {
   
     console.log('DADES QUE ENVIE:', subscriptionData);
   
-    this.http.post('https://herbolari-susana.onrender.com/orders', subscriptionData)
-      .subscribe({
-        next: (res) => {
-          console.log('RESPOSTA BACKEND:', res);
-          alert('Subscripció guardada correctament');
-          this.cartService.clearCart();
-          this.router.navigate(['/orders']);
-        },
-        error: (err) => {
-          console.error('ERROR BACKEND:', err);
-          alert(err.error?.error || 'No s’ha pogut guardar la subscripció');
-        }
-      });
+    this.orderService.createOrder(subscriptionData).subscribe({
+      next: (res) => {
+        console.log('RESPOSTA BACKEND:', res);
+        alert('Subscripció guardada correctament');
+        this.cartService.clearCart();
+        this.router.navigate(['/orders']);
+      },
+      error: (err) => {
+        console.error('ERROR BACKEND:', err);
+        alert(err.error?.error || 'No s’ha pogut guardar la subscripció');
+      }
+    });
   }
  
 }
